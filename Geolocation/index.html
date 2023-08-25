@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>City Exploration </title>
+    <style>
+        body {
+            background: url(image.jpg);
+            background-repeat: no-repeat;
+            background-size: cover;
+            display: flex;
+            justify-content: space-between;
+            flex-direction: row;
+
+        }
+
+        .container {
+            border: 10px solid yellow;
+            border-radius: 10px;
+            height: 400px;
+            width: 600px;
+            margin-right: 20px;
+            margin-top: 10rem;
+        }
+
+        .topic {
+            z-index: 1;
+            height: 400px;
+            width: 900px;
+            color: white;
+            font-size: 7rem;
+            margin-top: 5rem;
+        }
+
+        #myMap {
+            z-index: 1;
+            border-radius: 10rem !important;
+            height: 400px;
+            width: 600px;
+
+
+        }
+
+        #location-btn {
+            height: 3rem;
+            width: 8rem;
+            color: white;
+            background-color: green;
+            margin-top: 4px;
+            margin-left: 15rem;
+            border-radius: 10px;
+            font-weight: bolder;
+        }
+
+        #location-btn:hover {
+            cursor: pointer;
+            height: 4rem;
+            width: 9rem;
+            font-size: 1.1rem;
+        }
+    </style>
+</head>
+
+<body>
+   
+    <div class="topic">
+        <canvas id="canvas" width="900" height="300"></canvas>
+        <!-- Get Your Live location ! -->
+        <button id="location-btn" onclick="GetMap()">Click here</button>
+        <!-- <h6 style="font-size: 25px;">City Expoloration Website</h5> -->
+    </div>
+    
+    
+</body>
+<script type='text/javascript'
+    src='http://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=' 
+    async defer></script> 
+    <!-- have to include api  in above src-->
+
+<script type='text/javascript'>
+
+
+    var canvas = document.getElementById('canvas');
+    var ctx = canvas.getContext('2d');
+    ctx.font = 'italic 50px Arial';
+    ctx.textAlign = 'center';
+    ctx. textBaseline = 'middle';
+    ctx.fillStyle = 'White';  // a color name or by using rgb/rgba/hex values
+    ctx.fillText('Get Your Location ', 350, 100); // text and position
+
+    function GetMap() {
+        //using microsoft api key
+        var map = new Microsoft.Maps.Map('#myMap', {
+            credentials: '',// give api key
+        });
+
+        //Request the user's location
+        navigator.geolocation.getCurrentPosition(function (position) {
+            var loc = new Microsoft.Maps.Location(
+                position.coords.latitude,
+                position.coords.longitude);
+
+            //Add a pushpin at the user's location.
+            var pin = new Microsoft.Maps.Pushpin(loc, {
+                title: 'Live',
+                subTitle: 'Ravi Ray',
+                text: '1'
+
+            });
+
+            map.entities.push(pin);
+
+            //Center the map on the user's location.
+            map.setView({ center: loc, zoom: 75 });
+        });
+    }
+</script>
+
+</html>
